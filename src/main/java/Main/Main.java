@@ -16,12 +16,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class Main extends TelegramLongPollingBot {
 
     public static final String USERNAME = "luckyanyaBot";
-    public static final String TOKEN = "945476768:AAH_vWOWuJlBssboE258Smc7x6a-6boo2cc";
+    public static final String TOKEN = "945476768:AAH_vW0WuJlBssboE258Smc7x6a-6boo2cc";
 
     public Main(DefaultBotOptions botOptions) {
         super(botOptions);
     }
-
 
     @Override
     public String getBotUsername() {
@@ -36,7 +35,20 @@ public class Main extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Message message = update.getMessage();
+        if (message != null && message.hasText()) {
+            if (message.getText().equals("Hello"))
+                sendMsg(message, "Hello, I am a little bot");
+            else
+                sendMsg(message, "I do not know what to answer. Maybe say me Hello?");
+        }
+    }
+
+    private void sendMsg(Message message, String text) {
         SendMessage sendMessage = new SendMessage(message.getChatId(), message.getText());
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(message.getChatId().toString());
+        sendMessage.setReplyToMessageId(message.getMessageId());
+        sendMessage.setText(text);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -49,7 +61,7 @@ public class Main extends TelegramLongPollingBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            botOptions.setProxyHost("177.185.156.241");
+            botOptions.setProxyHost("177.8.226.254");
             botOptions.setProxyPort(8080);
             botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
             telegramBotsApi.registerBot(new Main(botOptions));

@@ -1,42 +1,36 @@
 package Main;
-
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-public class Main extends TelegramLongPollingBot {
+public class Main extends TelegramLongPollingCommandBot {
 
     public static final String USERNAME = "luckyanyaBot";
-    public static final String TOKEN = "945476768:AAH_vWOWuJlBssboE258Smc7x6a-6boo2cc";
+    public static final String TOKEN = "945476768:AAH_vW0WuJlBssboE258Smc7x6a-6boo2cc";
 
-    public Main(DefaultBotOptions botOptions) {
-        super(botOptions);
-    }
-
-
-    @Override
-    public String getBotUsername() {
-        return USERNAME;
+    Main(DefaultBotOptions botOptions) {
+        super(botOptions, USERNAME);
+        register(new Command());
+        register(new InlineKeyboard());
+        register(new ReplyKeyboard());
     }
 
     @Override
-    public String getBotToken() {
-        return TOKEN;
-    }
-
-    @Override
-    public void onUpdateReceived(Update update) {
+    public void processNonCommandUpdate(Update update) {
         Message message = update.getMessage();
-        SendMessage sendMessage = new SendMessage(message.getChatId(), message.getText());
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(message.getChatId());
+        if (message.getText().equals("Hello")) {
+            sendMessage.setText("Hello, I am a little bot");
+        } else {
+            sendMessage.setText("I do not know what to answer. Maybe say me Hello?");
+        }
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -44,12 +38,17 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 
+    @Override
+    public String getBotToken() {
+        return TOKEN;
+    }
+
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            botOptions.setProxyHost("177.185.156.241");
+            botOptions.setProxyHost("177.8.226.254");
             botOptions.setProxyPort(8080);
             botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
             telegramBotsApi.registerBot(new Main(botOptions));
@@ -58,28 +57,7 @@ public class Main extends TelegramLongPollingBot {
         }
     }
 }
-/*public class Mainn extends TelegramLongPollingBot {
-    @Override
-    public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
-        String userName = chat.getUserName();
-        if (userName == null || userName.isEmpty()) {
-            userName = user.getFirstName() + "" + user.getLastName();
-        }
-        StringBuilder messageTextBuilder = new StringBuilder("Hello").append(userName);
-        if (arguments != null && arguments.length > 0) {
-            messageTextBuilder.append("\n");
-            messageTextBuilder.append("Thank you so much for your kind words:\n");
-            messageTextBuilder.append(String.join("", arguments));
-        }
 
-        SendMessage answer = new SendMessage();
-        answer.setChatId(chat.getId().toString());
-        answer.setText(messageTextBuilder.toString());
-        try {
-            absSender.execute(answer);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }*/
+
 
 

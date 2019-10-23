@@ -15,12 +15,12 @@ import java.util.List;
 
 public class InlineKeyboard extends BotCommand {
 
-    private static final String CommandIdentifier = "inline";
-    private static final String Description = "inline keyboard command";
-    private static final String[] CatchWords = {"GitHub", "example", "share", "hello"};
+    private static final String COMMAND_IDENTIFIER = "inline";
+    private static final String DESCRIPTION = "inline keyboard command";
+    private static final String[] CATCH_WORDS = {"GitHub", "example", "share", "hello"};
 
     public InlineKeyboard() {
-        super(CommandIdentifier, Description);
+        super(COMMAND_IDENTIFIER, DESCRIPTION);
     }
 
     private ReplyKeyboard getInlineKeyboardMarkup(String[] args) {
@@ -28,16 +28,16 @@ public class InlineKeyboard extends BotCommand {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         List<InlineKeyboardButton> keyboardFirstRow = new ArrayList<>();
         if (args != null && args.length > 0) {
-            if (args[0].contains(CatchWords[0])) {
+            if (args[0].contains(CATCH_WORDS[0])) {
                 keyboardFirstRow.add(new InlineKeyboardButton("open GitHub TelegramBot repository").setUrl("https://github.com/luckyanya/luckyanyaBot"));
             }
-            if (args[0].contains(CatchWords[1])) {
+            if (args[0].contains(CATCH_WORDS[1])) {
                 keyboardFirstRow.add(new InlineKeyboardButton("open an example of a Bot").setUrl("https://habr.com/ru/post/432548/"));
             }
-            if (args[0].contains(CatchWords[2])) {
+            if (args[0].contains(CATCH_WORDS[2])) {
                 keyboardFirstRow.add(new InlineKeyboardButton("give me a compliment").setSwitchInlineQuery("it's amazing"));
             }
-            if (args[0].contains(CatchWords[3])) {
+            if (args[0].contains(CATCH_WORDS[3])) {
                 keyboardFirstRow.add(new InlineKeyboardButton("hello BotCommand").setCallbackData("/hello"));
             }
         } else {
@@ -51,14 +51,12 @@ public class InlineKeyboard extends BotCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] arguments) {
         SendMessage answer = new SendMessage();
-        StringBuilder messageTextBuilder;
         if (arguments != null && arguments.length > 0) {
-            messageTextBuilder = new StringBuilder("your request is:");
+            answer.setText("your request is:");
         } else {
-            messageTextBuilder = new StringBuilder("where is a request?");
+            answer.setText("where is a request?");
         }
         answer.setChatId(chat.getId().toString());
-        answer.setText(messageTextBuilder.toString());
         answer.setReplyMarkup(getInlineKeyboardMarkup(arguments));
         try {
             absSender.execute(answer);

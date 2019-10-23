@@ -13,11 +13,11 @@ import java.util.List;
 
 public class ReplyKeyboard extends BotCommand {
 
-    private static final String commandIdentifier = "reply";
-    private static final String description = "reply keyboard command";
+    private static final String COMMAND_IDENTIFIER = "reply";
+    private static final String DESCRIPTION = "reply keyboard command";
 
     public ReplyKeyboard() {
-        super(commandIdentifier, description);
+        super(COMMAND_IDENTIFIER, DESCRIPTION);
     }
 
     @Override

@@ -9,11 +9,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Command extends BotCommand {
 
-    private static final String commandIdentifier = "hello";
-    private static final String description = "hello bot command";
+    private static final String COMMAND_IDENTIFIER = "hello";
+    private static final String DESCRIPTION = "hello bot command";
 
     public Command() {
-        super(commandIdentifier, description);
+        super(COMMAND_IDENTIFIER, DESCRIPTION);
     }
 
     @Override

@@ -39,17 +39,13 @@ public class ReplyKeyboard extends BotCommand {
         replyKeyboardMarkup.setOneTimeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add("/update_buttons");
-        keyboardFirstRow.add("/hello");
         KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add("/inline open_GitHub_repos");
-        keyboardSecondRow.add("/inline open_Bot_example");
-        KeyboardRow keyboardThirdRow = new KeyboardRow();
-        keyboardThirdRow.add("/inline give_compliment");
-        keyboardThirdRow.add("/inline reply_bot");
+        keyboardFirstRow.add("/inline GitHub");
+        keyboardFirstRow.add("/inline example");
+        keyboardSecondRow.add("/inline share");
+        keyboardSecondRow.add("/inline hello");
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
-        keyboard.add(keyboardThirdRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
         return replyKeyboardMarkup;
     }

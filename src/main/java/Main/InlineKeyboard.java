@@ -17,7 +17,7 @@ public class InlineKeyboard extends BotCommand {
 
     private static final String CommandIdentifier = "inline";
     private static final String Description = "inline keyboard command";
-    private static final String[] CatchWords = {"GitHub", "example", "share", "command"};
+    private static final String[] CatchWords = {"GitHub", "example", "share", "hello"};
 
     public InlineKeyboard() {
         super(CommandIdentifier, Description);
@@ -41,7 +41,7 @@ public class InlineKeyboard extends BotCommand {
                 keyboardFirstRow.add(new InlineKeyboardButton("hello BotCommand").setCallbackData("/hello"));
             }
         } else {
-            keyboardFirstRow.add(new InlineKeyboardButton("Text").setSwitchInlineQueryCurrentChat("you are a lucky guy"));
+            keyboardFirstRow.add(new InlineKeyboardButton("Text").setSwitchInlineQueryCurrentChat("GitHub/example/share/hello"));
         }
         keyboard.add(keyboardFirstRow);
         inlineKeyboardMarkup.setKeyboard(keyboard);
